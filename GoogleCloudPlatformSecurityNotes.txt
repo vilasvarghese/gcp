@@ -1,0 +1,1490 @@
+Day 1
+Configuring access within a cloud solution environment
+● Configuring Cloud Identity. Considerations include:
+
+-----------------------------------------------------------------------------------------------------
+Why trust on Google for security
+	More than 7 app having billion plus users
+		gmail
+		youtube
+	app, data stored in the same infra where proven apps are running
+	dedicated support 
+		strong team working dedicated on security
+	
+	Hardware layer
+		<1% employee has physical access to data center
+		in house build hardware
+	IAM
+	User management
+		Google account authentication
+			support SAML
+		Enforce rule
+			password length
+			multi factor authentication
+	Storage
+		default encrypt all data 
+			use Google managed encryption key
+		CMEK, CSEK
+	Data in Transit
+		encrypt all data which crosses its boundary
+	IAP (identity aware proxy): 
+		secure VM and app engine
+	Built-in DOS (deniel of service) attack prevention
+	Data loss prevention
+		inspect
+		redact
+		transform
+		re-identify PII Data
+	secured VPC
+		cloud native solutions
+		subnet 
+		firewall rules
+		ingress/egress traffic
+		cloud armor
+	Operations
+		Logging, Monitoring, trace, Profiling
+	
+		
+	-----------------------------------------------------------------------------------------------------
+
+	• Managing Cloud Identity
+	-----------------------------------------------------------------------------------------------------
+	Different identities
+		single account
+			1. Google account
+			2. Service account
+
+		domain : add an org. includes users
+			3. Google workspace
+			4. Cloud identity domain
+
+		group
+			5. Google groups
+		
+		
+	Google account
+		any mail id
+	Google workspace
+		What is Google workspace
+			Earlier gSuite
+			Like Office 365
+				Paid subscription for office 365 apps
+				sheets, slides, docs and many more
+			Attach company domain
+				RBAC management for employees in company domain
+			Subscription:
+				per user per month/annual option
+			Admin management console
+		
+	Cloud identity domain
+		Like google workspace without apps
+		Attach company domain
+				RBAC management for employees in company domain
+			Subscription:
+				per user per month/annual option
+			Admin management console
+		https://gsuite.google.com/signup/gcpidentity/welcome
+			Create a domain from https://www.znetlive.com/
+			
+			
+	Create and manage groups.
+	
+	-----------------------------------------------------------------------------------------------------
+	• Configuring Google Cloud Directory Sync
+		https://cloud.google.com/community/tutorials/gcds-use-cases-common-and-complex
+	-----------------------------------------------------------------------------------------------------
+		Google cloud directory sync
+			synchronize data in Google account with 
+				Microsoft Active directory or LDAP server
+			doesn't migrate any content like below to google account
+				email
+				calendar events 
+				files
+			synchronize 
+				google users 
+				groups
+				shared contacts
+					to match with information in LDAP server
+		This can be done using 
+			GCDS (Google cloud directory sync)
+			GSPS (Google suite password sync)
+			
+		Pre-requisites for AD integration to Google
+			Must have a public DNS domain
+			Subscribed to Cloud identity or Google workspace
+			Access to on-premises Active Directory Machine
+			Global Administrator or Super admin in Cloud Identity or Google workspace
+			
+				
+				
+		GCDS and GSPS can be installed from 
+				https://tools.google.com/dlpage/dirsync/thankyou.html
+		Install GSuite password sync tool
+				https://support.google.com/a/answer/2611859?product_name=UnuFlow&visit_id=637930722922679711-4039776027&rd=1&src=supportwidget0#download
+				https://support.google.com/a/answer/2611859#download
+				
+		Login password sync tool 
+			use admin credentials
+			validate/authorize
+			
+			
+			
+	Shared VPC Demo
+		HostProject
+			create vpc
+			create subnet
+			share vpc
+		Service project (P1)
+		Service project (P2)
+
+	VPC peering demo
+		
+GCP Hybrid connectivity
+	Connect our datacenter networkw with GCP
+	GCP Hybrid conecvitity products
+		Cloud VPN IPSEC
+		Cloud internconnect
+			Dedicated interconnect
+			Partner interconnect
+		Peering with Google
+			Direct
+			Carrier
+		
+	
+	Cloud VPN IPSEC
+		Virtual private network (VPN) 
+		Securely connect google compute engine resources to 
+			on premises private network
+			or
+			other public cloud
+		uses IPSEC VPN
+		Good choise for quick connectivity
+		Traffic is encrypted by 
+			one VPN gateway
+			decrypted by other 
+		Traffic travelled over public internet
+		Cloud VPN tunnel can support till 3GBs
+	
+	Cloud internconnect
+		Extend on premises VPC to GCP network
+		Highly available, low latency network
+			direct connection
+			no public internet
+		Access all resources using internal private IP address
+		More time and cost for initial setup
+		No encryption while data moves	
+		
+	Lab: Check Hybrid connectivity option parallel to VPC
+	-------------------------------------------------------------------------
+	Dedicated interconnect 			|	Partner interconnect
+	-------------------------------------------------------------------------
+	No encryption					|	No encryption
+	SLA: Your data center and 		|	Your datacenter and service provider
+			Google VPC
+	Costly							|	Lower than dedicated
+	Bandwidth: 10Gbps - 200 Gbps	|	50 Mbps to 10 Gbps
+	No service provider required	|	Service provider required
+	Internal IP communication		|	Internal IP communication
+	-------------------------------------------------------------------------	
+		
+	• Management of super administrator account
+	-----------------------------------------------------------------------------------------------------
+		
+		https://admin.google.com/ac/roles
+			Accounts -> Admin roles
+		cloud.google.com
+			IAM
+				Organizational Administrator
+		
+		https://support.google.com/cloudidentity/answer/2405986?hl=en
+		
+		
+		https://cloud.google.com/resource-manager/docs/super-admin-best-practices
+		Super admin accounts
+			To configure your Google Cloud Organization resource, 
+				use Google Workspace 
+			or 
+				Cloud Identity 
+					super admin account. 
+		 
+			Have irrevocable administrative permissions 
+			recommendatiion: don't use for day-to-day administration. 
+		Account types
+			A Google Workspace super admin account 
+			has a set of administrative capabilities 
+				that includes Cloud Identity. 
+			Single set of identity management controls 
+				for use across all Google services, such as 
+					Docs, 
+					Sheets, 
+					Google Cloud, and 
+					so forth.
+
+			A Cloud Identity account 
+				provides authentication and 
+				identity management functionality, independent of Google Workspace.
+
+		Create a super admin email address
+			Create a new email address 
+				not specific to a particular user as the 
+					Google Workspace or 
+					Cloud Identity 
+						super admin account. 
+			Secure with multi-factor authentication
+
+		Designate organization admins
+			Designate one or more organization administrators. 
+			Smaller set of permissions 
+				Designed to manage your day to day organization operations.
+			Create a private Google Cloud administrator group 
+				in Google Workspace or 
+				Cloud Identity 
+					super admin account. 
+			Admin group		
+				Add organization administrator users to this group
+				Don't add your super admin user to this group. 
+				Grant this group 
+					min. Organization Administrator IAM role.
+			
+			
+		Set appropriate roles
+			Google Workspace and Cloud Identity 
+				has administrative roles 
+				not as permissive as the super admin role. 
+			Recommend: 
+				follow the principle of least privilege 
+					grant users the minimum set of permissions 
+						they need to manage users and groups.
+
+		Discourage super admin account usage
+			The Google Workspace and Cloud Identity super admin account 
+				has a powerful set of permissions that 
+					Not necessary for use in the daily administration of your organization. 
+			Implement policies that will secure your super admin accounts and make users less likely to attempt to use them for day-to-day operations, such as:
+			Enforce multi-factor authentication on your super admin accounts as well as all accounts that have elevated privileges.
+			Use a security key or other physical authentication device to enforce two-step verification.
+			For the initial super admin account, ensure that the security key is kept in a safe place, preferably at your physical location.
+			Give super admins a separate account that requires a separate login. For example, user alice@example.com could have a super admin account alice-admin@example.com.
+
+			If you are synchronizing with a third-party identity protocol, ensure you apply the same suspension policy to Cloud Identity and the corresponding third-party identity.
+			If you have a Google Workspace enterprise or business account or a Cloud Identity premium account, you can enforce a short sign-in period for any super admin accounts.
+
+			Follow the guidance in the Security best practice patterns for administrator accounts.
+
+		API call alerts
+			Use Google Cloud's operations suite to set up alerts that will notify you when a 
+			SetIamPolicy() API call is made. This will send an alert when anyone modifies any IAM policy.
+
+		Account recovery process
+			Ensure that the organization administrators are familiar with the 
+			super admin account recovery process. 
+			This process will help you recover your account in the event that super admin credentials 
+			are lost or compromised.
+
+		Multiple organizations
+			Recommend using folders to manage parts of your organization 
+				based on the seperation you want.
+			If you want to use multiple organization resources instead
+				use multiple 
+					Google Workspace or 
+					Cloud Identity accounts. 
+
+-----------------------------------------------------------------------------------------------------
+● Managing user accounts. Considerations include:
+-----------------------------------------------------------------------------------------------------
+
+	• Designing identity roles at the project and organization level
+	-----------------------------------------------------------------------------------------------------
+		Understanding Resource Hierarchy in Google Cloud Platform
+		https://tudip.com/blog-post/understanding-resource-hierarchy-in-google-cloud-platform/
+
+		Google Cloud Resources
+			Everything on Google Cloud Platform is resources. 
+			All the Google cloud resources 
+				organized hierarchically 
+				like parent-child relationships. 
+				
+			Image reference: https://tudip.com/blog-post/understanding-resource-hierarchy-in-google-cloud-platform/
+			In hierarchy 
+				root node: organization node 
+				Folders: 
+					Departments
+					Teams
+					Products
+				projects:
+					children of the organization
+				Resources:
+					descendants of the projects.
+
+		Set 
+			Cloud Identity and 
+			Access Management (Cloud IAM) policies 
+			at different levels of the resource hierarchy 
+			resources inherit the policies applied at the parent level. 
+			Each resource has exactly one parent.
+
+		Google Cloud Resources Lifecycle
+		The fundamental components that make up all Google Cloud services are said to be resources. Examples: Compute Engine Virtual Machines (VMs),Cloud Storage buckets, App Engine instances, Pub/Sub topics.
+
+		Diagram:
+		Understanding_Resource_Hierarchy_in_Google_Cloud_Platform 
+		GCP Resource Lifecycle
+
+		Resource hierarchy lifecycle can be understood from the above diagram. As you can see, a company is separated into different departments (Dept x, and Dept y) and the Department is divided into different teams (Team A and Team B) that are called Folders. Where Team is a set of products and products are mapped through GCP projects  and GCP resources.
+
+		Four Pillars Of Google Cloud Resources
+			Organization
+			Folders
+			Projects
+			Resources
+
+		Organization resource 
+			contains the following: 
+				- Organization 
+					hierarchical ancestor of 
+						project
+						resources and 
+						folders 
+					Represents the Company.
+				- IAM access control policies 
+					applied to the organization resources are 
+						applied through the entire below hierarchy (
+							through 
+								folders, 
+								projects, and 
+								resources).
+				- Access to the organization resource 
+					is not applicable to the personal email.
+				- Organization level access 
+					given only to the corporate emails.
+				- Org admin 
+					has full power to edit all the permission and 
+					orgowner is reserved for G-Suite/ cloud IAM super admin.
+				- Organization ID
+					is a unique identifier for an organization.
+				- Display name
+					generated from the primary domain name in 
+						G Suite or 
+						Cloud Identity.
+				- Last modified time of 
+					Organization and 
+					Time of creation
+				- The owner of the organization. 
+					The owner specified when creating the Organization resource and 
+					it cannot be changed once it is set.
+		
+		Provided code below shows the structure of an Organization resource:
+		{
+		  "displayName": "myorganization",
+		  "organizationId":"34739118455",
+		  "createTime": "2020-02-05T21:59:43.314Z"
+		  "owner": {
+			"directoryCustomerId": "C020BA274"
+		   }
+		}
+
+
+		Folder Role in GCP:
+			Folders 
+				additional grouping and 
+				isolation boundaries between projects
+				Contains a collection of 
+					projects and 
+					other sub folders.
+			Granted roles at 
+				highest level folder 
+				will be inherited by 
+					projects or 
+					other folders 
+						that exist in the hierarchy.
+			Folders can be used to model different 
+				legal entities, 
+				departments, and 
+				teams within a company and 
+			Each team folder contains additional sub-folders to represent different applications
+			If 
+				Folder resources exist at organization level and 
+				if you have appropriate viewing permissions, 
+					then you can view them from the Google Cloud Console.
+
+		Provided code below shows the structure of a folder:
+		{
+		 "name" : "folders/my-folder",
+		 "parent" : "organizations/my-organization",
+		 "displayName" : "Engineering",
+		 "lifecycleState" : "ACTIVE",
+		 "createTime": "2020-02-05T21:59:43.314Z"
+		}
+
+		Projects Role in GCP:
+			Projects 
+				core organizational component on Google Cloud Platform.
+			Organizations and Folders 
+				can contain multiple projects and 
+				projects are required to use any GCP resource.
+			Projects - basis for 
+				creating, 
+				enabling, and 
+				using 
+					Google Cloud services, 
+					managing APIs, 
+					adding and removing collaborators, 
+					enabling billing, and 
+					managing permissions. 
+					Projects have three identifying attributes
+			Project ID  –   Globally unique and can be chosen by us which is immutable
+			Project Name – Need not to be unique and chosen by us and mutable in nature
+			Project Number-  Globally unique and it is  being assigned by GCP and immutable in nature
+
+		Provided code below shows the structure of a project:
+		{
+		  "name": "myproject",
+		  "projectId": "my-project-123",
+		  "labels":
+		   {
+			 "my-label": "prod"
+		   },
+		   "projectNumber": "464036093014",
+		   "lifecycleState": "ACTIVE",
+		   "createTime": "2016-01-07T21:59:43.314Z"
+		}
+
+		Cloud IAM policy with GCP resources: 
+			Google cloud 
+				provides Cloud IAM and 
+				its access policy depends on the different GCP resources. 
+				That is Organization level, Folder level, Project level, and Resource level.
+			Cloud IAM policies 
+				hierarchical in nature 
+				flow down to the child node 
+			If we set policy at the Organization level then it is inherited by all its child nodes as 
+				Folders, Projects.
+		
+		
+Lab: https://avinetworks.com/docs/21.1/gcp-roles-and-permissions/		
+		
+		
+	• Automation of user lifecycle management process
+	-----------------------------------------------------------------------------------------------------
+		https://cloud.google.com/identity/solutions/automate-user-provisioning
+		
+		Business problem
+			Enterprise companies 
+				using more and more cloud applications 
+			Each cloud app has a user roster with sets of privileges. 
+			As users 
+				join or 
+				leave 
+					the company
+			need to be 
+				provision or 
+				deprovision 
+					in all the appropriate apps.
+
+			IT departments 
+				manage individual 
+					user IDs and 
+					passwords that are associated with different cloud apps for each user. 
+				When provisioning is automated
+					employees get the tools they need 
+						as soon as they join the company. 
+				Companies also want to reduce possible security risks 
+					by deprovisioning a user from all cloud apps when that user leaves the company.
+
+			Solutions
+			There are Cloud Identity and 
+				third-party alternatives for 
+				implementing automated provisioning.
+
+			Cloud Identity automated provisioning
+				Cloud Identity 
+					has a catalog of automated provisioning connectors
+						act as a bridge between 
+							Cloud Identity and 
+							third-party cloud apps.
+
+			Once you've set up SAML for Single Sign-On (SSO)
+				you can set up automated user provisioning to 
+					create, 
+					modify, or 
+					delete a user's identity across your cloud apps. 
+				Admins can 
+					authorize Cloud Identity 
+					to synchronize a subset of their Cloud Identity users 
+						to one or more supported apps.
+
+			Advantages
+
+				Accommodates the full user lifecycle by creating, updating, removing, or suspending user profiles.
+				Accommodates full app lifecycle management by enabling companies to add or remove applications from their organization in a central location.
+				Provides a consistent user experience for all supported apps, including unified reporting, audit logs, and granular event tracking.
+				Third-party Just-in-Time provisioning
+				Many apps that support SAML can be automatically provisioned through Just-In-Time (JIT) provisioning. Some service providers set up their SAML app so that when a user accesses their app, it checks to see if the user already has an account. If they don't have an account, one is created for them.
+
+			Advantages
+
+				Requires less configuration, because only SAML app setup is required.
+				Customers might be able to influence service providers to support JIT provisioning for apps where Cloud Identity currently doesn't have automated provisioning connectors.
+
+			Disadvantages
+
+				Doesn't support user deprovisioning, which requires manual intervention to remove app licenses for users who leave a company.
+				Not all third-party cloud apps support JIT provisioning.
+				Compared to the consistent Cloud Identity automated provisioning connectors, third-party connectors can vary in how they work and what's included in their reports and logs.
+
+			Recommendations
+				When an app is supported for automated provisioning in the Cloud Identity SAML catalog, we recommend you use the Cloud Identity automated provisioning connector.
+
+				If the automated provisioning connector you need isn't in the catalog, work with your service provider to develop the connector. If your service provider supports JIT, that's also an option. However, it usually only handles user profile creation and doesn't address profile updating, suspension, or deletion.
+
+			Third-party identity providers
+				If you have a third-party Identity provider (IdP), you can still configure automated user provisioning to third party apps in the Cloud Identity catalog. In this case, user authentication occurs in the third-party IdP, and Cloud Identity manages the cloud apps.
+
+				To use Cloud Identity for automated provisioning, your users need Cloud Identity accounts. They log in through your third-party IdP or using a password on their Cloud Identity accounts.
+
+			Example
+				Company A uses Cloud Identity as their primary IdP. They also use software as a service (SaaS) products for customer resource management (CRM), messaging, and customer ticket management. They want to automate user provisioning and deprovisioning in these cloud apps with Cloud Identity as the single source of truth (IdP).
+
+				On their first day at Company A, all Support employees automatically get a license to the customer ticket management app, and all salespeople get a license to the CRM app. Everyone gets the messaging app.
+
+				The IT department at Company A wants to ensure that only the correct set of people in the customer organization can access certain third-party applications. This involves synchronizing user profiles from Cloud Identity to all linked third-party applications that are assigned to particular users.
+
+				When a user loses access to an app (they leave the company no longer need the app) their profile is removed from the relevant linked third-party applications so licenses aren't blocked.
+
+			IT sets up their cloud apps for automated provisioning:
+
+			Make a list of the cloud apps their employees are using.
+			Locate these apps in the Cloud Identity SAML and automated user provisioning catalogs.
+			Set up SSO for these apps by turning on SSO for them one by one (if SSO isn't set up already).
+			Configure automated user provisioning for the apps.
+		
+Lab:		
+		https://support.google.com/cloudidentity/topic/7661972
+
+	
+	https://support.google.com/cloudidentity/answer/7291444?hl=en&ref_topic=7662553#zippy=%2Cset-up-auto-provisioning-for-the-gotomeeting-application
+	
+-----------------------------------------------------------------------------------------------------
+
+● Managing service accounts. Considerations include:
+-----------------------------------------------------------------------------------------------------
+	Service Account
+		Non-human identity
+			Apps
+			services
+		Identity for compute engine
+		Generate keys (with SA)
+			use it for Authentication
+			max. 10 keys per SA.
+			max. 100 SA per project.
+	Types of SA
+		Google managed Service Account
+			for internal operations 
+				e.g. migration
+			google creates SA.
+			
+		Built-in SA
+			compute engine/app engine
+				default SA
+		User created SA
+			
+Lab:
+	Create a bucket
+	Create a custom SA
+		create two new vm
+			one connected to default sa
+			one connected to custom sa
+		-> gcloud auth list
+
+
+	2 ways to give access (access scope)
+		Legacy
+			3 Access scopes
+				Allow 
+					default access
+					full access to all cloud API's
+				Set access to each API
+			Disadvantage
+				Needs restart. (machine must be stopped)
+				
+		Modern: IAM
+			Assign role to service account 
+				like identity
+			No restart required.
+
+Lab:
+1. do the below with default SA
+	requires restart.
+	
+	list all buckets
+		-> gsutil ls
+		gcloud auth list
+	
+	default: bucket read access
+		remove bucket read access
+		restart box
+			-> gsutil ls
+			#takes some time to throw error
+		if it doesn't reflect 
+			rm -rf .gsutil
+			gsutil ls
+		
+		give the bucket access back
+		restart the box
+			-> gsutil ls
+
+1. do the above with custom SA we created
+	doesn't requires restart.
+
+
+	Service Account user role
+		user can use SA identity for compute/app engine if 
+			user has
+				iam.serviceAccounts.actAs permission
+				Service Account user role
+Lab:
+	Create a new user
+		select the right project
+		remove all access 
+		provide "compute admin" access
+	Login as that user
+		Attempt to create a vm
+			it fails as list service account permission is missing
+	Login back as admin 
+		Give Service Account user role
+N.B: It is not possible to give a specific permission. We can only give a role.
+
+		
+	
+	
+
+	Service Account as identity and resource
+	----------------------------------------
+	Service Account can be used as identity with 
+		Compute engine
+		App engine
+	
+	Users can use Service account like resource
+		Assign an user to a SA.
+		Give a role to SA
+		user can do all things which SA has role to.
+		Provide user "Service Account Token creator" role
+	
+Lab: 
+	Create a service account
+	
+	In IAM
+		Click Add on top
+		enter the SA
+		add "Comput Admin" role
+	
+	Go back to "Service Account" section
+		Click Permissions
+			Grant Access
+				New member: add user who would operate
+				role: "Service Account Token creator"
+	
+	Login back as user
+		click ssh and login to vm
+	
+		gcloud config unset project
+		gcloud compute instances list
+		gcloud compute instances list --project <project id from browser>
+		gcloud compute instances list --project <project id from browser> --impersonate-service-account <service account complete mail id>
+		
+		
+	Service Account Keys
+		Password for SA.
+		Used for authentication
+		Generated from Google cloud console
+		gcloud
+			
+	
+
+	• Auditing service accounts and keys
+	-----------------------------------------------------------------------------------------------------
+	Step into console and verify.
+
+	• Automating the rotation of user-managed service account keys
+	-----------------------------------------------------------------------------------------------------
+		Generate a key from the service account
+		login as a user who doesn't have access to do more advanced things
+		upload the keys file downloaded
+		gcloud auth list
+			account currently bound with cloud shell
+		gcloud auth activate-service-account --key-file=key-file-uploaded
+		gcloud auth list
+			service account binding gets listed
+		gcloud compute instances list --project <project id from browser"
+		
+		Such keys generated can be easily deleted.
+		
+
+
+	• Identification of scenarios requiring service accounts
+	-----------------------------------------------------------------------------------------------------
+	
+	
+	
+	• Creating, authorizing, and securing service accounts
+	-----------------------------------------------------------------------------------------------------
+
+	• Securely managed API access management
+	-----------------------------------------------------------------------------------------------------
+
+
+
+● Managing authentication. Considerations include:
+	• Creating a password policy for user accounts
+	-----------------------------------------------------------------------------------------------------
+		Step into console
+		
+		
+	• Establishing Security Assertion Markup Language (SAML)
+	-----------------------------------------------------------------------------------------------------
+		Security Assertion Markup language
+		Normal Google authentication
+			Credentials stored on google server
+				Password, username etc.
+			Google acts
+				service provider
+				identity provider
+		SAML - SSO based authentication
+			Companies has pre-defined sso implementation
+				Google used only as service provider
+				not identity provider
+				
+		Option in admin.google.com -> Security.		
+
+			
+	• Configuring and enforcing two-factor authentication
+	-----------------------------------------------------------------------------------------------------
+		Check security section
+-----------------------------------------------------------------------------------------------------
+
+● Managing and implementing authorization controls. Considerations include:
+-----------------------------------------------------------------------------------------------------
+	• Using resource hierarchy for access control
+	-----------------------------------------------------------------------------------------------------
+		Step into console
+		
+			
+	
+	• Privileged roles and separation of duties
+	-----------------------------------------------------------------------------------------------------
+	• Managing IAM permissions with basic, predefined, and custom roles
+	-----------------------------------------------------------------------------------------------------
+	IAM - Identity and access management
+	Fine-grained access control and visibility for centrally managing cloud resources
+	Who can do What on Which resources
+	Who
+		Identity - Member
+		Email
+			Can be 
+				1. Google account
+				2. Service account
+				3. Google workspace
+				4. Cloud identity domain
+				5. Google groups
+	What
+		Roles 
+			(collection of permissions)
+	Which 
+		Services
+			e.g. compute
+	
+	
+	Roles
+		Types
+			Primitive
+				Owner
+				Editor
+				Viewer
+			Pre-defined
+				Role on a single service
+				e.g. 
+					Compute admin
+					Network viewer
+			Custom Role
+				Customizable
+				Created from pre-defined role
+		
+		Collection of permissions
+		Structure of permission
+			Service.ResourceType.Verb
+			e.g.
+				bigtable.tables.get
+				cloudfunctions.functions.list
+				compute.disks.create
+				
+		Permissions cannot be directly assigned to users
+		
+	Primtive Roles
+		Too much broad access
+			Old way
+			not recommended
+			violates principal of least privilege
+		Types
+			Reader
+				read only 
+				for all resources inside a project
+			Editor
+				Reader + update access
+			Owner
+				Editor+ manage 
+							user, 
+							groups, 
+							billling
+			
+			Iam -> Roles
+			use in: Projects
+				Roles listed
+				
+		Pre-defined roles
+			Roles 
+				defined 
+					for each product/services
+				Maintained 
+					by GCP
+			e.g.:
+				Compute Admin
+				Network viewer
+		
+		Roles
+			Storage Admin
+			Storage Object Admin
+			
+
+
+	Custom Roles
+		Custom Defined
+		Custom roles can be defined by
+		1. combination of pre-defined roles
+		2. remove permission from pre-defined roles
+		3. add permissions into pre-defined roles
+
+		
+	Use case
+		New joinee
+			upload to the bucket
+			Not
+				create bucket
+				delete bucket
+				
+		Goto a role 
+			Click "Create from role"
+			
+	
+	
+	• Granting permissions to different types of identities
+	-----------------------------------------------------------------------------------------------------
+
+	• Understanding difference between Google Cloud Storage IAM and ACLs
+	-----------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------
+
+● Defining resource hierarchy. Considerations include:
+-----------------------------------------------------------------------------------------------------
+	Step into the console
+
+		
+	-----------------------------------------------------------------------------------------------------
+	• Resource structures (orgs, folders, and projects)
+		Google suggests 
+			https://cdn-images-1.medium.com/max/800/0*PAz0Q7GEh4Pi-40_.png
+			
+		Steps 
+			https://console.cloud.google.com/
+			IAM
+			managed resources
+			Give access
+				IAM
+					edit user
+					add folder admin or organization admin.
+
+	-----------------------------------------------------------------------------------------------------
+	• Creating and managing organizations
+		
+	-----------------------------------------------------------------------------------------------------
+	• Defining and managing organization constraints
+	-----------------------------------------------------------------------------------------------------
+	• Using resource hierarchy for access control and permissions inheritance
+	-----------------------------------------------------------------------------------------------------
+	• Trust and security boundaries within Google Cloud projects
+	-----------------------------------------------------------------------------------------------------
+● Designing network security. Considerations include:
+	Sectin 12,13,14,15
+
+	subnetting
+		
+	CIDR notation
+		CIDR (Classless Inter-Domain Routing) -- 
+		also known as supernetting -- 
+		method of assigning Internet Protocol (IP) 
+			improves the efficiency of address distribution and 
+		The initial goal of CIDR 
+			slow the increase of routing tables on routers 
+				across the internet and 
+			decrease the rapid exhaustion of IPv4 addresses. 
+		Result: number of available internet addresses has greatly increased.
+
+		The original classful network design 
+			inefficient 
+			drained the pool of unassigned IPv4 addresses faster. 
+		The classful design included the following:
+
+			Class A, with over 16 million identifiers
+			Class B, with 65,535 identifiers
+			Class C, with 254 host identifiers
+		If an organization needed more than 254 host machines
+			switch into Class B. 
+			potentially waste over 60,000 hosts 
+		
+		CIDR 
+			introduced by the Internet Engineering Task Force (IETF) 
+			in 1993 to fix this problem.
+
+		CIDR 
+			based on variable-length subnet masking (VLSM), 
+			enables network engineers to divide an IP address space 
+				into a hierarchy of subnets of different sizes
+				can create subnetworks 
+					with different host counts 
+					without wasting large numbers of addresses.
+
+		CIDR addresses 
+			made up of two sets of numbers: 
+			a prefix
+				binary representation of the network address -- 
+				similar to what would be seen in a normal IP address -- 
+			and a suffix
+				declares the total number of bits in the entire address. 
+				For example, CIDR notation may look like: 
+					192.168.129.23/17 -- with 17 being the number of bits in the address. 
+					IPv4 addresses allow a maximum of 32 bits.
+
+		CIDR notation 
+			can be applied to IPv6 addresses. 
+			difference 
+				IPv6 addresses 
+					can contain up to 128 bits.
+	
+	
+	CIDR notation
+		IP sets aside some addresses for specific purposes. 
+		For e.g., 
+			several ranges -- 
+				Class B 192.168.0.0 -- 
+					nonroutable 
+					used to define a private network. 
+			Most home Broadband routers 
+				assign addresses from the 192.168 
+			all zeros 
+			all-ones 
+				broadcast address -- 
+				packets sent to that address will go to all hosts on the network.
+
+
+
+		It helps to think of the binary representation of the network addresses. 
+		For IPv4, 
+			32-bit address 
+				broken into four groups of 8 bits each -- 
+					called a dotted quad of numbers. 
+			A dotted quad would look like, 
+				192.168.0.0: decimal form 
+			or
+				11000000.10101000.00000000.00000000: in binary form.
+
+		Class A: first 8 bits
+		Class B: first 16 bits
+		Class C: first 32 bits
+				
+		An IP address can be parsed into 
+			network identifier and 
+			host identifier 
+				applying a network mask to the address -- 
+			another dot address, 
+			with ones wherever a bit is used to indicate the network portion of the address. 
+			For e.g., a 
+			classic Class B : written as 255.255.0.0.
+
+		If a network is further broken up into subnets, 
+			use subnet mask, 
+			adds bits to the network mask. 
+			
+			If we break 192.168.0.0 into two subnets
+				subnet mask gets one bit longer 
+				could be indicated with 255.255.128.0.
+
+		CIDR notation compactly indicates the network mask 
+			for an address and 
+			adds on the total number of bits in the entire address using slash notation. 
+		For  e.g., 
+			192.168.129.23/17 indicates a 17-bit network mask. 
+			Internet users can refer to a /17 network to indicate the network's size 
+				without specifying an actual network mask.
+
+	How does CIDR work?
+		Routers using CIDR use a destination address to route a packet toward a gateway, which can then take care of further unpacking the address based on its understanding of the details of the supernetwork -- also called the supernet. If a router knows routes for different parts of the same supernet, then it will use the most specific one -- or the one with the longest network address.
+
+		In IPv6, a CIDR block always gets 64 bits for specifying network addresses.
+
+	Advantages of CIDR
+		CIDR reduced the problem of wasted IPv4 address space 
+			without causing an explosion in the number of entries in a routing table. 
+			CIDR also lets one routing table entry for a supernet represent an aggregation of networks -- 
+				about which only a router closer to the destination actually needs to know the details.
+
+		CIDR is now the routing system on the internet's backbone network, 
+			every ISP uses it. 
+		It is supported by 
+			Border Gateway Protocol (BGP), 
+			the prevailing exterior (interdomain) gateway protocol and the 
+			Open Shortest Path First (OSPF) gateway protocol.
+
+		Older gateway protocols, like
+			Exterior Gateway Protocol and 
+			Routing Information Protocol, do not support CIDR.
+	
+	
+	
+	VPC
+		networking
+			Most important part of 
+				cloud
+				security
+			why?
+		virtual equivalent of physical network
+		VPC: Global resources
+		Placeholder to create resources
+		No IP assigned to VPC
+		Must have atleast one subnet.	
+		Max: 5 networks per projects
+	
+	Subnets
+		Networks in VPC has subnets
+			regional resources
+			Has IP ranges.
+			Expressed as CIDR
+				VM's in this region would be assigned from this CIDR.
+			Must belong to a single region
+			
+	Types of VPC
+		Default
+			Created when compute engine APi enabled
+			Every project has default VPC
+				if compute engine is enabled
+				Lab: 
+					Create a new project to check this.
+					Create a vpc and subnet
+					Create a vm
+					Is default vpc created?
+					check firewall rules created with 
+						default
+						
+			Default: 1 subnet
+		Auto
+			One subnet per each region is created.
+				default firewall rules are created.
+			fixed subnet ranges per region
+				can expand from /20 to /16
+			default firewall can be easily added
+		Custom
+			No subnet automatically created
+			manually create subnet
+			custom IP range allocation
+			Not mandatory to create subnet in all region
+			
+
+Lab:
+Default
+	Create a new project
+	Check if default vpc is created
+	Enable VM 
+		check if 
+			default vpc is created
+			subnets
+			firewall rules 
+		
+Auto
+	Create VPC
+		select auto
+			Verify 
+				subnets getting created (would take soemtime)
+				firewall rules
+	Edit auto mode to custom mode
+		Verify the impact on subnet's firewalls etc
+
+Custom
+	Create a VPC Network
+		Select 
+			Custom
+			Region
+				IPaddress range 10.0.0.0/24
+			Done
+		No firewalls added by default.
+		
+	VPC network ULA (unique local addresses) internal IPv6 range
+		Internal IPv6 ranges use unique local addresses (ULAs)
+			ULAs for IPv6 
+				analogous to RFC 1918 addresses for IPv4. 
+				ULAs cannot be reached from the internet
+				Not publicly routable.
+			To create subnets with internal IPv6 ranges, you first assign an internal IPv6 range to the VPC network. A /48 IPv6 range is assigned. When you create a subnet with an internal IPv6 range, the subnet's /64 range is assigned from the VPC network's range.
+			A VPC network's internal IPv6 range is unique within Google Cloud.
+			You can let Google assign the VPC network internal IPv6 range, or you can select a specific range. If your VPC network connects to networks outside of Google Cloud, you can choose a range that does not overlap with the ranges used in those environments.
+			The assignment of a VPC network's /48 internal IPv6 range is permanent. You cannot disable it or change it later.
+	
+Create a VM in all 3 vpc's		
+
+
+Firewall
+	Trust nothing by default
+	Few default rule
+		Allow all outgoing traffic 
+			egress
+		Deny all incoming traffic
+			ingress
+	Rules have priority number
+		lesser the number: higher the priority
+		
+		
+Use case
+	2 vm in a vpc
+		1 allow 
+		1 disallow
+	Solution:
+		create two different service account
+			attach to respective vm's
+	
+	
+Internal Vs External IP address
+	Internal
+		Static 
+		Ephemeral
+	External
+		Static 
+		Ephemeral
+Ephemeral
+	Short lived
+	Changes when VM's are restarted
+Static IP
+	Constant
+		Can be exposed outside
+	Higher the cost while not in use
+
+ 		
+			
+	• Security properties of a VPC network, VPC peering, shared VPC, and firewall rules
+	-----------------------------------------------------------------------------------------------------
+Shared VPC
+	Way to share VPC between projects
+	A host project
+		share VPC
+	Service project
+		use shared VPC
+	Shared VPC: Centrally managed
+	Max host project: 100
+	Max service project/host project: 100
+		Total: 10K
+	Available only for projects attached to a domain
+	
+	• Network isolation and data encapsulation for N tier application design
+	-----------------------------------------------------------------------------------------------------
+	• Use of DNSSEC
+	-----------------------------------------------------------------------------------------------------
+	DNS: Domain name system
+	Phonebook of internet
+		identify ip address from domain name
+		domain name: to ip address
+	DNS helps to travel packet from source to destination
+	Packet is unencrypted 
+		can be hacked
+	Need a layer of extra security on top of DNS
+	DNSSEC: Domain name system security extensions
+	
+Lab:
+	Networking (different section)
+		Networking services
+			Cloud DNS
+			Enable "Cloud DNS API"
+		Create a zone
+			zonename: vilaszone
+			dns name: your domain name
+			
+		Automatically 
+			SOA name record and NS record are created.
+			We can add 
+				CName record, 
+				A record, 
+				https record etc.
+			
+	
+	
+	• Private vs. public addressing
+	-----------------------------------------------------------------------------------------------------
+	• App-to-app security policy
+	
+	-----------------------------------------------------------------------------------------------------
+	-----------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------
+
+● Configuring network segmentation. Considerations include:
+-----------------------------------------------------------------------------------------------------
+	• Network perimeter controls (firewall rules; IAP)
+	-----------------------------------------------------------------------------------------------------
+	IAP
+		identity aware proxy
+		guard access to your applications in VMs
+		protect access to applications hosted on 
+			Google cloud
+			other clouds
+			on-premises
+
+Lab:
+		Secure app engine application - http
+			Consent screen configuration
+			Assign IAP web user role
+	
+	• Load balancing (global, network, HTTP(S), SSL proxy, and TCP proxy load balancers)
+	-----------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------
+
+● Establish private connectivity. Considerations include:
+	• Private RFC1918 connectivity between VPC networks and Google Cloud projects (Shared VPC, VPC 
+	peering)
+	-----------------------------------------------------------------------------------------------------
+	• Private RFC1918 connectivity between data centers and VPC networks (IPSEC and Cloud Interconnect).
+	-----------------------------------------------------------------------------------------------------
+	• Enable private connectivity between VPC and Google APIs (private access)
+	-----------------------------------------------------------------------------------------------------
+	Private access
+		allow subnetworks to use GCP services privately
+		No external IP address require
+		Call Google API and services internal
+			interal IP address
+			e.g. youtube api, 
+			cloud storage api etc
+			
+			
+Lab: 
+	Create VM with default
+	Test connectivity with different APIs
+		gsutil ls 
+		curl https://www.googleapis.com/youtube/v3/search
+		
+	
+	Create a new vm without external ip
+		gsutil ls# will fail.
+		so traffic flows over external ip.
+		
+		identify teh subnet-sg to which this vm is connected
+		go to the subnet from VPC network
+		edit subnet
+		Enable private google access
+		
+		
+		retry gsutil ls
+		
+		
+
+
+Day 3
+
+Ensuring data protection
+● Preventing data loss with the DLP API. Considerations include:
+	
+	DLP (Data loss prevention API)
+		Fully managed service
+		discover, classify and protect 
+			most sensitive data
+			can be Personal identification information (PII)
+		Google provide api
+			can apply on 
+				cloud storage
+				big query data
+			it will discover, classify and protect data
+		Work on free form text
+			structured 
+			or 
+			unstructured data (images)
+		
+		How it works?
+			identiffy sensitive data
+			de-identify data
+				masking and encryption
+			re-identify data 
+				to use where it is required.
+				
+	De-identification
+		Redacation
+			remove sensitive data
+		Replacement
+			replace with some other token 
+		or Masking
+			replace one/more characters with some other character
+			e.g. XXXX-XXXX-XXXX-2343 in credit card
+		or Encryption
+			encrypt sensitive data
+		
+
+
+	
+	
+	
+
+	• Identification and redaction of PII (Personal identification information)
+	-----------------------------------------------------------------------------------------------------
+Try
+	https://cloud.google.com/dlp/demo/#!/
+	
+	Templates
+		Configuration which define 
+			inspection of jobs
+			de-identification of jobs
+		define once
+			reuse for other jobs
+	
+	Template types
+		identification
+			Find sensitive data
+		de-identification
+			Remove sensitive data
+	
+	Infotypes
+		What are you scanning for?
+			e.g. credit card
+			SSN
+			Age
+	Types of Infotypes
+		Built-IN
+				US_SOCIAL_SECURITY_NUMBER
+				EMAIL_ADDRESS
+			150+ Built-in infotype defined
+		Stored
+			Custom infotype
+			Based on 
+				fixed words
+				regular expression,
+				custom dictionary
+	
+	Match Likelihood
+		LIKELIHOOD_UNSPECIFIED	
+			Default value; same as POSSIBLE
+		VERY_UNLIKELY
+		UNLIKELY
+		POSSIBLE
+		LIKELY
+		VERY_LIKELY
+
+
+
+	• Configuring tokenization
+	-----------------------------------------------------------------------------------------------------
+	• Configure format preserving substitution
+	-----------------------------------------------------------------------------------------------------
+	• Restricting access to DLP datasets
+	-----------------------------------------------------------------------------------------------------
+● Managing encryption at rest. Considerations include:
+	
+	Data can be stored at 
+		GCS
+		Persistent Disk, SSD
+		File server
+		Database File
+		
+	Why encrypt?
+
+	Encryption?
+	Plain text -> Encryption algorithm -> Cipher Text
+		
+	Decryption
+	other way
+	
+	Symmetric key encryption
+	Asymmetric key encryption
+	
+	When to encrypt
+		Data at rest
+			in 
+				GCS
+				Database etc
+		Data in motion
+			from 
+				one network to other
+				within GCP or outside
+		Data in Use
+			in RAM
+			memory store applications
+				Redis
+				Spark
+			In memory data processing
+				your application
+
+	What to encrypt?
+		Data
+		Certificates
+		Key
+			Envelope encryption
+	
+	Client Side
+		Encryption before data is sent to Cloud Storage
+	
+	Server side
+		encryption after google cloud receives the data
+	
+	Cloud KMS
+		Manage encryption keys on Google cloud
+		3 ways of managing keys
+			Google-managed encryption keys
+			Customer-managed encryption keys
+			Customer-supplied encryption keys
+			
+	Google-managed encryption keys
+		default encryption
+		server side encryption
+			before writing data to any disk on google
+		No additional configuration
+		Encrypt using AES-256
+		Google manage rotation policy
+			modify the keys automatically.
+		Data divided in multiple chunks
+			each data encrypted using a different keys
+		
+Lab:
+	Create a new bucket
+		regional
+			select region
+		standard storage
+		access: uniform
+		encryption: google-managed encryption key
+		Upload a file
+			
+			
+	Customer-managed encryption keys
+		Keys generated by Google cloud KMS
+		Customer can control
+			rotation policy
+			HSM/Software based keys
+			
+		Cloud KMS
+			Multiple Key buckets: 
+				called KeyRing
+				can have multiple keys
+				
+	
+	Customer-supplied encryption keys	
+		Complete control over encryption keys
+		If keys lost, data cannot be recovered
+		To generate keys
+			openssl rand-base64 32
+		Cannot create bucket from cloud console
+		gsutil -o 'GSUtil:encryption_key='<key>'
+		
+		gsutil mb -c regional -l <region> <key-location> 
+		e.g.
+		gsutil mb -c regional -l asia-souteast1 gs://keyname
+		
+		
+
