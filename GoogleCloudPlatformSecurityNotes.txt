@@ -86,7 +86,9 @@ Why trust on Google for security
 		https://gsuite.google.com/signup/gcpidentity/welcome
 			Create a domain from https://www.namecheap.com/
 			
-			
+		Includes two parts 
+			1. Create cloud identity domain
+			2. Verity cloud identity domain
 	Create and manage groups.
 	
 	-----------------------------------------------------------------------------------------------------
