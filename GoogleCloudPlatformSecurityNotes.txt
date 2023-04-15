@@ -84,7 +84,7 @@ Why trust on Google for security
 				per user per month/annual option
 			Admin management console
 		https://gsuite.google.com/signup/gcpidentity/welcome
-			Create a domain from https://www.znetlive.com/
+			Create a domain from https://www.namecheap.com/
 			
 			
 	Create and manage groups.
