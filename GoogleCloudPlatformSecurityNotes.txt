@@ -1319,11 +1319,24 @@ Ensuring data protection
 			re-identify data 
 				to use where it is required.
 				
+		Has over 150 infotypes (e.g. SSN)
+		Can define our own 
+			or use regular expression
+			
+		Cloud dlp can scan
+			cloud storage
+			structured text
+			streams of data
+			BigQuery
+			Images
+			
+				
 	De-identification
 		Redacation
 			remove sensitive data
 		Replacement
-			replace with some other token 
+			replace with some other token
+			e.g. date shifting
 		or Masking
 			replace one/more characters with some other character
 			e.g. XXXX-XXXX-XXXX-2343 in credit card
@@ -1332,7 +1345,51 @@ Ensuring data protection
 		
 
 
+				^
+Information about data 		|	* No obfuscation
+				|		
+				|
+				|
+				|	     * Bucketing
+				|		* Tokenization	
+				|		   * Masking
+				|		       * Replacement
+				|			   * Redaction   
+				|
+				|___________________________________________>
+					Data obfuscation
 	
+Many de-identification techniques	
+	Masking
+		873-***-**2 (can't understand what data was removed_
+	Replacement 
+		Date: [DATE_OF_BIRTH]	can say what data was replaced
+	Bucketing
+		Salary of all directors: 234323423
+		Risk: if only a single director, information is exposed
+	Crypto-based tokenization
+		replace with hash/token
+		userid: ADSFADSF!#@$@ADSF@#$@ASDFASD	
+		can decrypt using the key only
+	Redaction
+	Date shifting
+	Time extraction
+		etc.
+		
+	Likelihood
+	----------
+	VERY_LIKELY
+	LIKELY
+	POSSIBLE
+	UNLIKELY
+	VERY UNLIKELY
+	
+	
+	Cloud DLP supports following encrytion
+	--------------------------------------
+	Deterministic encryption
+	Format preseving encryption
+	Crypto-graphic hashing
 	
 	
 
