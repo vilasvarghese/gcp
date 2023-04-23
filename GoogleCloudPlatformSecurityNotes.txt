@@ -1534,16 +1534,24 @@ Lab:
 				
 	
 	Customer-supplied encryption keys	
+		gsutil ls 
+			list all buckets
+		
+		gsutil mb -c regional -l <region> <bucket-location> 
+		e.g.
+		gsutil mb -c regional -l asia-souteast1 gs://<new bucketname>>
+		
 		Complete control over encryption keys
 		If keys lost, data cannot be recovered
 		To generate keys
 			openssl rand-base64 32
+		create a new file with some content
+			gsutil cp <file> gs://<new bucket>>
+
 		Cannot create bucket from cloud console
-		gsutil -o 'GSUtil:encryption_key='<key>'
+		gsutil -o 'GSUtil:encryption_key='<key - output from the openssl command above>' cp <<file>> gs://<<new bucket>>
+			this will be encrypted using the customer managed key and uploaded.
+			Check on the console.
 		
-		gsutil mb -c regional -l <region> <key-location> 
-		e.g.
-		gsutil mb -c regional -l asia-souteast1 gs://keyname
-		
-		
+				
 
